@@ -1,5 +1,5 @@
 #!/bin/zsh
-# tiny_oil.zsh - Generic grid auto-clicker
+# tiny_oil.zsh - Generic grid auto-clicker (Hold Ctrl)
 
 # -------------------------
 # CONFIG
@@ -64,11 +64,15 @@ click_slot() {
 # -------------------------
 # MAIN
 # -------------------------
+# Hold Ctrl for the entire macro
+xdotool keydown Control
+
 for ((col=0; col<COLUMNS; col++)); do
     for ((row=0; row<ROWS; row++)); do
         click_slot "$col" "$row"
     done
 done
 
-echo "Finished clicking all slots!"
+xdotool keyup Control
+echo "Finished clicking all slots with Ctrl held!"
 exit 0
