@@ -1,5 +1,5 @@
 #!/bin/zsh
-# tiny_oil.zsh - Generic grid auto-clicker (Hold Ctrl)
+# tiny_oil.zsh - Generic grid auto-clicker (Hold Ctrl, millisecond delays)
 
 # -------------------------
 # CONFIG
@@ -11,7 +11,7 @@ SLOT_HEIGHT=53
 COLUMNS=12
 ROWS=5
 CLICK_DELAY_MS=20       # milliseconds per slot
-MOVE_DELAY=0.007        # seconds after moving before clicking
+MOVE_DELAY_MS=10         # milliseconds to wait after moving before clicking
 
 # -------------------------
 # IGNORE SLOTS (comma separated, numbered top-left = 0, counting vertically)
@@ -32,7 +32,7 @@ move_mouse() {
     local X=$1
     local Y=$2
     xdotool mousemove "$X" "$Y"
-    sleep "$MOVE_DELAY"
+    sleep $(echo "scale=3; $MOVE_DELAY_MS/1000" | bc)
 }
 
 click_mouse() {
