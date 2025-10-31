@@ -1,5 +1,5 @@
 #!/bin/zsh
-# tiny_oil.zsh - Wayland/XWayland auto-clicker for POE
+# tiny_oil.zsh - Generic grid auto-clicker
 
 # -------------------------
 # CONFIG
@@ -12,13 +12,12 @@ COLUMNS=12
 ROWS=5
 CLICK_DELAY_MS=20       # milliseconds per slot
 MOVE_DELAY=0.007        # seconds after moving before clicking
-POE_WINDOW_NAME="Path of Exile"  # adjust to your window title/class
 
 # -------------------------
 # IGNORE SLOTS (comma separated, numbered top-left = 0, counting vertically)
 # Example: IGNORE_SLOTS="0,1,2,3"
 # -------------------------
-IGNORE_SLOTS="0,1,2,3"          # leave empty for none
+IGNORE_SLOTS="0,1,2,3"   # leave empty for none
 typeset -A IGNORE_MAP
 if [[ -n "$IGNORE_SLOTS" ]]; then
     for i in ${(s/,/)IGNORE_SLOTS}; do
@@ -29,16 +28,6 @@ fi
 # -------------------------
 # FUNCTIONS
 # -------------------------
-focus_poe_window() {
-    POE_WIN=$(xdotool search --name "$POE_WINDOW_NAME" | head -1)
-    if [[ -z "$POE_WIN" ]]; then
-        echo "POE window not found!"
-        exit 1
-    fi
-    xdotool windowactivate "$POE_WIN"
-    sleep 0.2
-}
-
 move_mouse() {
     local X=$1
     local Y=$2
@@ -75,9 +64,6 @@ click_slot() {
 # -------------------------
 # MAIN
 # -------------------------
-echo "Focusing POE window..."
-focus_poe_window
-
 for ((col=0; col<COLUMNS; col++)); do
     for ((row=0; row<ROWS; row++)); do
         click_slot "$col" "$row"
